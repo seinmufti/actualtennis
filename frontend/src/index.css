@@ -1,0 +1,125 @@
+:root {
+  --grass: #3d8b4f;
+  --grass-deep: #1b4332;
+  --ball: #d6ee3a;
+  --ball-deep: #5c6d08;
+  --clay: #e07a3d;
+  --ink: #163024;
+  --ink-soft: #3d5a48;
+  --panel: #fffdf6;
+  --line: #f4f0d8;
+  --line-strong: #cfe3c3;
+  --phone-width: 390px;
+  --phone-height: 844px;
+  --sans: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font: 16px/1.45 var(--sans);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 20%, #4aa35c, transparent 42%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.35)),
+    repeating-linear-gradient(
+      90deg,
+      #245c34 0 46px,
+      #2a6a3c 46px 48px,
+      #245c34 48px 94px,
+      #2a6a3c 94px 96px
+    );
+}
+
+#root {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.phone {
+  width: min(var(--phone-width), 100%);
+  height: min(var(--phone-height), calc(100dvh - 40px));
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 10px solid #14261b;
+  border-radius: 40px;
+  box-shadow:
+    0 0 0 3px #0c1811,
+    0 28px 50px rgba(0, 0, 0, 0.35);
+  background:
+    linear-gradient(#ffffff10, #ffffff10),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 47%,
+      rgba(255, 255, 255, 0.35) 47% 53%,
+      transparent 53% 100%
+    ),
+    #3f9a55;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  z-index: 6;
+  width: 118px;
+  height: 22px;
+  transform: translateX(-50%);
+  background: #14261b;
+  border-radius: 16px;
+}
+
+h1,
+h2 {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+p {
+  margin: 0;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--ball);
+  outline-offset: 2px;
+}
+
+@media (max-width: 430px) {
+  body {
+    padding: 0;
+  }
+
+  .phone {
+    width: 100%;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .phone-notch {
+    display: none;
+  }
+}
