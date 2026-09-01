@@ -1,6 +1,7 @@
 node_modules
 dist
 dist-ssr
+public
 *.local
 *.log
 backend/bookings.json.tmp
@@ -8,3 +9,5 @@ backend/bookings.json.tmp
 .idea
 .vscode/*
 !.vscode/extensions.json
+
+.vercel
