@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 16px;
   padding: 42px 16px 48px;
-  text-align: left;
+  text-align: start;
   overflow: auto;
   flex: 1;
   min-height: 0;
@@ -13,8 +13,199 @@
 .hero {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 4px 2px 0;
+}
+
+.hero-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  direction: ltr;
+  flex-direction: row;
+  flex: none;
+}
+
+.settings-btn {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 2.5px solid var(--ball);
+  border-radius: 15px;
+  background: linear-gradient(180deg, #fffef8 0%, #f4f9ef 100%);
+  color: var(--grass-deep);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow:
+    0 5px 0 rgba(27, 67, 50, 0.22),
+    0 0 0 1px rgba(214, 238, 58, 0.35);
+}
+
+.settings-btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 rgba(27, 67, 50, 0.22),
+    0 0 0 1px rgba(214, 238, 58, 0.35);
+}
+
+.settings-btn svg {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.45));
+}
+
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(15, 36, 27, 0.45);
+}
+
+.settings-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(320px, 88vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 18px;
+  background: var(--grass-deep);
+  color: #e8ffd4;
+  border-left: 3px solid #2f5a45;
+  box-shadow: -12px 0 0 rgba(0, 0, 0, 0.18);
+  animation: settings-slide-in 0.22s ease-out;
+}
+
+@keyframes settings-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.settings-head h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+.settings-close {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #4a7a62;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8ffd4;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.settings-label {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ball);
+}
+
+.lang-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #4a7a62;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8ffd4;
+  font: inherit;
+  font-weight: 700;
+  text-align: start;
+  cursor: pointer;
+}
+
+.lang-btn.selected {
+  border-color: var(--ball);
+  background: rgba(214, 238, 58, 0.16);
+  box-shadow: 0 0 0 2px var(--ball);
+  color: #fffef2;
+}
+
+.lang-flag {
+  width: 32px;
+  height: 24px;
+  flex: none;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(27, 67, 50, 0.12);
+}
+
+.settings-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-credit {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: #b8d4a8;
+}
+
+.nordlys-logo {
+  width: min(100px, 70%);
+  height: auto;
+  display: block;
+}
+
+html[dir='rtl'] .settings-panel {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 3px solid #2f5a45;
+  box-shadow: 12px 0 0 rgba(0, 0, 0, 0.18);
+  animation-name: settings-slide-in-rtl;
+}
+
+@keyframes settings-slide-in-rtl {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+html[dir='rtl'] .lang-btn {
+  flex-direction: row-reverse;
+  text-align: end;
 }
 
 .hero h1 {
@@ -44,6 +235,7 @@
 .my-booking,
 .board,
 .rules-card,
+.pricing-card,
 .courts-card {
   background: var(--panel);
   border: 3px solid var(--line);
@@ -56,7 +248,30 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+
+.branch-card {
   margin-top: 12px;
+  padding: 12px;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: #f4f9ef;
+}
+
+.branch-info {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--grass-deep);
+  text-align: center;
+}
+
+.branch-name {
+  font-weight: 700;
+}
+
+.branch-address {
+  font-weight: 500;
 }
 
 .court-figure {
@@ -83,7 +298,7 @@
 .court-check {
   position: absolute;
   top: 8px;
-  left: 8px;
+  inset-inline-start: 8px;
   width: 18px;
   height: 18px;
   color: var(--ball);
@@ -122,10 +337,15 @@
 .my-booking h2,
 .board h2,
 .rules-card h2,
+.pricing-card h2,
 .courts-card h2,
 .modal h2 {
   margin: 0 0 6px;
   font-size: 22px;
+}
+
+.pricing-amount {
+  white-space: nowrap;
 }
 
 .muted {
@@ -313,7 +533,7 @@
   border: 2px dashed currentColor;
   border-radius: 18px;
   padding: 8px 7px 9px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   font: inherit;
   min-height: 0;
@@ -416,7 +636,7 @@
 
 .rules-card ol {
   margin: 12px 0 0;
-  padding-left: 22px;
+  padding-inline-start: 22px;
   display: grid;
   gap: 8px;
 }

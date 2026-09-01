@@ -1,18 +1,20 @@
 import { formatBooking } from '../format.js'
+import { useLanguage } from '../language.jsx'
 
 export default function MyBooking({ booking, busy, onCancel }) {
+  const { lang, t } = useLanguage()
+
   if (!booking) return null
 
   return (
     <section className="my-booking">
       <div>
-        <p className="eyebrow">Your game</p>
-        <h2>You are on the board</h2>
-        <p>{formatBooking(booking)}</p>
-        <p className="muted">Booked as {booking.name}</p>
+        <h2>{t('onBoard')}</h2>
+        <p>{formatBooking(booking, lang, t)}</p>
+        <p className="muted">{t('bookedAs', { name: booking.name })}</p>
       </div>
       <button type="button" className="ghost" disabled={busy} onClick={onCancel}>
-        {busy ? 'Canceling…' : 'Cancel booking'}
+        {busy ? t('canceling') : t('cancelBooking')}
       </button>
     </section>
   )

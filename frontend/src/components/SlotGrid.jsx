@@ -1,5 +1,6 @@
 import { ClayCourtIcon, GrassCourtIcon } from './CourtIcons.jsx'
 import { formatSlotRange, isPastSlot } from '../format.js'
+import { useLanguage } from '../language.jsx'
 
 const AM_HOURS = Array.from({ length: 12 }, (_, hour) => hour)
 const PM_HOURS = Array.from({ length: 12 }, (_, hour) => hour + 12)
@@ -27,6 +28,7 @@ function MoonIcon() {
 }
 
 function SlotChip({ hour, hourBookings, mine, date, onPick, selectedCourts }) {
+  const { t } = useLanguage()
   const visibleBookings = hourBookings.filter((booking) =>
     selectedCourts.includes(booking.courtId),
   )
@@ -45,11 +47,11 @@ function SlotChip({ hour, hourBookings, mine, date, onPick, selectedCourts }) {
   else if (full) status = 'taken'
   else if (past) status = 'past'
 
-  let meta = 'Open'
-  if (mineHere) meta = 'Your game'
+  let meta = t('open')
+  if (mineHere) meta = t('yourGame')
   else if (full) meta = visibleBookings.map((booking) => booking.name).join(' · ')
-  else if (past) meta = 'Finished'
-  else if (left === 1 && selectedCourts.length > 1) meta = '1 court left'
+  else if (past) meta = t('finished')
+  else if (left === 1 && selectedCourts.length > 1) meta = t('oneCourtLeft')
 
   const takenIds = new Set(visibleBookings.map((booking) => booking.courtId))
 
@@ -79,6 +81,7 @@ function SlotChip({ hour, hourBookings, mine, date, onPick, selectedCourts }) {
 }
 
 export default function SlotGrid({ date, bookings, mine, onPick, selectedCourts }) {
+  const { t } = useLanguage()
   const byHour = new Map()
   for (const booking of bookings) {
     const list = byHour.get(booking.hour) ?? []
@@ -91,7 +94,7 @@ export default function SlotGrid({ date, bookings, mine, onPick, selectedCourts 
       <section className="slot-col am" aria-labelledby="am-heading">
         <h3 id="am-heading" className="slot-col-title">
           <SunIcon />
-          AM
+          {t('am')}
         </h3>
         {AM_HOURS.map((hour) => (
           <SlotChip
@@ -109,7 +112,7 @@ export default function SlotGrid({ date, bookings, mine, onPick, selectedCourts 
       <section className="slot-col pm" aria-labelledby="pm-heading">
         <h3 id="pm-heading" className="slot-col-title">
           <MoonIcon />
-          PM
+          {t('pm')}
         </h3>
         {PM_HOURS.map((hour) => (
           <SlotChip

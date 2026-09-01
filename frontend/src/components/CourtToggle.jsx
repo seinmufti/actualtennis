@@ -1,4 +1,5 @@
 import { ClayCourtIcon, GrassCourtIcon } from './CourtIcons.jsx'
+import { useLanguage } from '../language.jsx'
 
 export default function CourtToggle({
   courtId,
@@ -6,10 +7,13 @@ export default function CourtToggle({
   takenCourts = [],
   visibleCourts = [1, 2],
 }) {
+  const { t } = useLanguage()
+
   return (
-    <div className="court-toggle" role="group" aria-label="Choose a court">
+    <div className="court-toggle" role="group" aria-label={t('chooseCourt')}>
       {visibleCourts.map((id) => {
         const taken = takenCourts.includes(id)
+        const label = t('courtLabel', { id })
         return (
           <button
             key={id}
@@ -17,9 +21,9 @@ export default function CourtToggle({
             className={courtId === id ? 'selected' : ''}
             disabled={taken}
             onClick={() => onChange(id)}
-            aria-label={taken ? `Court ${id} taken` : `Court ${id}`}
+            aria-label={taken ? `${label} taken` : label}
           >
-            <span className="court-label">Court {id}</span>
+            <span className="court-label">{label}</span>
             {id === 1 ? <GrassCourtIcon /> : <ClayCourtIcon />}
           </button>
         )

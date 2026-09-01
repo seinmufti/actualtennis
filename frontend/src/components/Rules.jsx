@@ -1,17 +1,15 @@
-const RULES = [
-  'The last 5 minutes are for packing up and a quick court reset.',
-  'One device can hold only one booking at a time.',
-  'Be on time. The next crew starts right at the hour.',
-  'No smoking on the court.',
-  'Wear appropriate sport clothes and footwear.',
-]
+import { translations } from '../i18n.js'
+import { useLanguage } from '../language.jsx'
 
 export default function Rules() {
+  const { lang, t } = useLanguage()
+  const rules = translations[lang]?.rules ?? translations.en.rules
+
   return (
     <section className="rules-card" aria-labelledby="rules-heading">
-      <h2 id="rules-heading">Court rules</h2>
+      <h2 id="rules-heading">{t('courtRules')}</h2>
       <ol>
-        {RULES.map((rule) => (
+        {rules.map((rule) => (
           <li key={rule}>{rule}</li>
         ))}
       </ol>

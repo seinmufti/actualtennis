@@ -1,4 +1,5 @@
 import { formatDateLabel, formatSlot, fromDateKey } from '../format.js'
+import { useLanguage } from '../language.jsx'
 import CourtToggle from './CourtToggle.jsx'
 
 export default function BookingModal({
@@ -11,6 +12,8 @@ export default function BookingModal({
   onClose,
   onConfirm,
 }) {
+  const { lang, t } = useLanguage()
+
   if (!draft) return null
 
   return (
@@ -22,12 +25,12 @@ export default function BookingModal({
         aria-labelledby="book-title"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="book-title">Book this slot?</h2>
+        <h2 id="book-title">{t('bookSlot')}</h2>
         <p className="modal-summary">
-          {formatDateLabel(fromDateKey(draft.date))} · {formatSlot(draft.hour)}
+          {formatDateLabel(fromDateKey(draft.date), lang)} · {formatSlot(draft.hour, lang, t)}
         </p>
         <div className="field">
-          <span>Choose Court</span>
+          <span>{t('chooseCourt')}</span>
           <CourtToggle
             courtId={draft.courtId}
             takenCourts={draft.takenCourts}
@@ -36,23 +39,23 @@ export default function BookingModal({
           />
         </div>
         <label className="field">
-          <span>Your name</span>
+          <span>{t('yourName')}</span>
           <input
             type="text"
             autoComplete="name"
             maxLength={40}
             value={name}
             onChange={(event) => onNameChange(event.target.value)}
-            placeholder="e.g. Sam"
+            placeholder={t('namePlaceholder')}
           />
         </label>
         {error ? <p className="banner error">{error}</p> : null}
         <div className="modal-actions">
           <button type="button" className="ghost" onClick={onClose}>
-            Never mind
+            {t('neverMind')}
           </button>
           <button type="button" className="primary" disabled={busy} onClick={onConfirm}>
-            {busy ? 'Booking…' : 'Book this court'}
+            {busy ? t('booking') : t('bookCourt')}
           </button>
         </div>
       </div>

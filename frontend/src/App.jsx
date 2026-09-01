@@ -7,15 +7,19 @@ import CourtsShowcase from './components/CourtsShowcase.jsx'
 import DatePicker from './components/DatePicker.jsx'
 import Hero from './components/Hero.jsx'
 import MyBooking from './components/MyBooking.jsx'
+import Pricing from './components/Pricing.jsx'
 import Rules from './components/Rules.jsx'
+import SettingsPanel from './components/SettingsPanel.jsx'
 import SlotGrid from './components/SlotGrid.jsx'
 import { getSavedName, saveName } from './device.js'
 import { toDateKey, upcomingDates } from './format.js'
+import { useLanguage } from './language.jsx'
 import './App.css'
 
-const DATES = upcomingDates(14)
+const DATES = upcomingDates(7)
 
 export default function App() {
+  const { t } = useLanguage()
   const [date, setDate] = useState(() => toDateKey(DATES[0]))
   const [board, setBoard] = useState({ date: null, bookings: [] })
   const [mine, setMine] = useState(null)
@@ -26,6 +30,7 @@ export default function App() {
   const [name, setName] = useState(getSavedName)
   const [busy, setBusy] = useState(false)
   const [selectedCourts, setSelectedCourts] = useState([1, 2])
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const load = useCallback(async (selectedDate) => {
     const data = await fetchBookings(selectedDate)
@@ -144,7 +149,7 @@ export default function App() {
     <div className="phone">
       <div className="phone-notch" aria-hidden="true" />
       <main className="page">
-        <Hero />
+        <Hero onOpenSettings={() => setSettingsOpen(true)} />
 
         <MyBooking
           booking={mine}
@@ -165,8 +170,8 @@ export default function App() {
         <section className="board" aria-labelledby="book-heading">
           <header className="board-head">
             <div className="board-title">
-              <h2 id="book-heading">Pick a time</h2>
-              <p className="muted">{openCount} slots open this day</p>
+              <h2 id="book-heading">{t('pickTime')}</h2>
+              <p className="muted">{t('slotsOpen', { count: openCount })}</p>
             </div>
           </header>
 
@@ -186,7 +191,10 @@ export default function App() {
         </section>
 
         <Rules />
+        <Pricing />
       </main>
+
+      <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
       <BookingModal
         draft={draft}
