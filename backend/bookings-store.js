@@ -7,8 +7,42 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const FILE = path.join(__dirname, 'bookings.json')
 const BLOB_PATH = 'bookings.json'
 
+export class StorageUnavailableError extends Error {
+  constructor(message = 'Booking storage is not configured for production.') {
+    super(message)
+    this.name = 'StorageUnavailableError'
+    this.status = 503
+  }
+}
+
+function isVercel() {
+  return Boolean(process.env.VERCEL)
+}
+
 function useBlob() {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+}
+
+export function storageStatus() {
+  if (useBlob()) {
+    return { mode: 'blob', writable: true }
+  }
+  if (isVercel()) {
+    return {
+      mode: 'none',
+      writable: false,
+      hint: 'Add Blob storage in the Vercel project dashboard (Storage → Create → Blob).',
+    }
+  }
+  return { mode: 'file', writable: true }
+}
+
+function assertWritable() {
+  if (isVercel() && !useBlob()) {
+    throw new StorageUnavailableError(
+      'Bookings cannot be saved yet. Add Blob storage to this Vercel project (Storage → Create → Blob), then redeploy.',
+    )
+  }
 }
 
 function readFile() {
@@ -52,6 +86,7 @@ async function read() {
 }
 
 async function write(bookings) {
+  assertWritable()
   if (useBlob()) {
     await writeBlob(bookings)
     return
