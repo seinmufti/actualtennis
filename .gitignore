@@ -11,3 +11,4 @@ backend/bookings.json.tmp
 !.vscode/extensions.json
 
 .vercel
+.env*
